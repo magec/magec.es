@@ -1,5 +1,6 @@
 node default {
 
-  require roles::db
+  class { 'roles::db': } ->
+  class { 'roles::wordpress': }
 
 }    

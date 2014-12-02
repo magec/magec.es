@@ -1,7 +1,18 @@
 laiacapdevila::database::name: 'laiacapdevila'
 laiacapdevila::database::user: 'laiacapdevila'
 
+laiacapdevila::wordpress::install_dir: '/var/www/laiacapdevila'
+laiacapdevila::wordpress::db_user: "%{hiera('laiacapdevila::database::user')}"
+laiacapdevila::wordpress::db_host: "localhost"
+laiacapdevila::wordpress::db_password: "%{hiera('laiacapdevila::database::password')}"
+
 roles::db::databases:
   - user: "%{hiera('laiacapdevila::database::user')}"
     name: "%{hiera('laiacapdevila::database::name')}"
     password: "%{hiera('laiacapdevila::database::password')}"
+
+roles::wordpress::blogs:
+  - install_dir: "%{hiera('laiacapdevila::wordpress::install_dir')}"
+    db_user: "%{hiera('laiacapdevila::wordpress::db_user')}"
+    db_host: "%{hiera('laiacapdevila::wordpress::db_host')}"
+    db_password: "%{hiera('laiacapdevila::wordpress::db_password')}"
