@@ -1,3 +1,7 @@
 laiacapdevila::database::name: 'laiacapdevila'
 laiacapdevila::database::user: 'laiacapdevila'
 
+roles::db::databases:
+  - user: "%{hiera('laiacapdevila::database::user')}"
+    name: "%{hiera('laiacapdevila::database::name')}"
+    password: "%{hiera('laiacapdevila::database::password')}"

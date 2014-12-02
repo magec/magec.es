@@ -7,6 +7,7 @@ MODULES_PATH="${PUPPET_PATH}/modules"
 HIERA_CONFIG="${SCRIPT_PATH}/../hiera/hiera.yaml"
 HIERA_DATADIR="${SCRIPT_PATH}/../hiera/datadir/"
 ENV=production
+export FACTER_hiera_data_dir=${HIERA_DATADIR}
 
 if ! [ -L /usr/bin/ruby ]; then
   apt-get install -y -f ruby2.0
@@ -20,7 +21,7 @@ if ! bundle check 1>&2 >/dev/null ; then
   bundle install
 fi
 
-sudo -E puppet apply --verbose --hiera_config=$HIERA_CONFIG --modulepath=$MODULES_PATH $PUPPET_PATH/manifests/default.pp --environment=$ENV --show_diff $@
+sudo -E puppet apply --parser future --verbose --hiera_config=$HIERA_CONFIG --modulepath=$MODULES_PATH $PUPPET_PATH/manifests/default.pp --environment=$ENV --show_diff $@
 
 
 
