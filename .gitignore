@@ -9,6 +9,7 @@ pkg
 rdoc
 spec/reports
 test/tmp
+hiera/datadir/passwords.yml
 test/version_tmp
 tmp
 \#*
