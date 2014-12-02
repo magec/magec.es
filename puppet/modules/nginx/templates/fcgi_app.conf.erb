@@ -1,0 +1,68 @@
+<% @include_files.each do |file| %>
+include <%= file %>;
+<% end %>
+
+server {
+
+<% if @status -%>
+  location ~ ^/(status|ping)$ {
+     access_log off;
+     allow 127.0.0.1;
+     deny all;
+     include fastcgi_params;
+     fastcgi_pass <%= @listen %>;
+  }
+<% end -%>
+
+<% if @site_proxy %>
+  location <%= @site_proxy['location'] %> {
+    proxy_pass <%= @site_proxy['proxy_pass'] %>;
+    proxy_pass_request_headers      on;
+    proxy_http_version 1.1;
+    proxy_redirect off;
+    proxy_read_timeout 60;
+    proxy_connect_timeout 60;
+    keepalive_timeout 60;
+    proxy_send_timeout 60;
+<% if @site_proxy['extra_opts'] %>
+<% @site_proxy['extra_opts'].each do |extra_opt| %>
+   <%= extra_opt %>;
+<% end %>
+<% end %>
+  }
+<% end %>
+
+  server_name <%= @domain_name %> default;
+  root <%= @app_path %>;
+
+  location ~ (<%= @assets.join('|') %>) {
+     root <%= @app_path %>;
+  }
+
+  location / {
+    index index.php
+    root <%= @app_path %>;
+
+    disable_symlinks off;
+    fastcgi_buffers 8 16k;
+    fastcgi_buffer_size 32k;
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_pass <%= @listen %>;
+    fastcgi_index index.php;
+    include fastcgi_params;
+
+<% @env.each do |key,value| -%>
+    fastcgi_param <%= key %>   <%= value -%>;
+<% end -%>
+
+    if ($request_filename !~ (<%= @static.join('|') %>) ) {
+      rewrite ^/(.*)$ /index.php/$1 last;
+    }
+
+  }
+
+}
