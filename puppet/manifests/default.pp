@@ -1,3 +1,5 @@
 node default {
-  notice("Im here")
+
+  require roles::db
+
 }    
