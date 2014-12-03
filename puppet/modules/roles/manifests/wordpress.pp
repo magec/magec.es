@@ -21,6 +21,7 @@ class roles::wordpress ($blogs) {
       db_name        => $blog['db_name'],
       db_user        => $blog['db_user'],
       db_password    => $blog['db_password'],
+      wp_owner       => 'www-data',
       listen         => $listen,
       nginx_site     => true,
       wp_lang        => $blog['wp_lang'],
