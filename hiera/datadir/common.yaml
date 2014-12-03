@@ -14,6 +14,9 @@ roles::db::databases:
 
 roles::wordpress::blogs:
   - install_dir: "%{hiera('laiacapdevila::wordpress::install_dir')}"
+    install_url: "http://ca.wordpress.org"
+    wp_lang: ca
+    version: 4.0.1
     domain_name: "%{hiera('laiacapdevila::wordpress::domain_name')}"
     db_user: "%{hiera('laiacapdevila::wordpress::db_user')}"
     db_host: "%{hiera('laiacapdevila::wordpress::db_host')}"
