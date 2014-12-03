@@ -10,7 +10,7 @@ server {
      allow 127.0.0.1;
      deny all;
      include fastcgi_params;
-     fastcgi_pass <%= @listen %>;
+     fastcgi_pass unix:/<%= @listen %>;
   }
 <% end -%>
 
@@ -35,9 +35,11 @@ server {
   server_name <%= @domain_name %> default;
   root <%= @app_path %>;
 
+  <% if !@assets.empty? -%>
   location ~ (<%= @assets.join('|') %>) {
      root <%= @app_path %>;
   }
+  <% end -%>
 
   location / {
     index index.php
@@ -51,7 +53,7 @@ server {
     fastcgi_read_timeout 300;
 
     fastcgi_split_path_info ^(.+\.php)(/.+)$;
-    fastcgi_pass <%= @listen %>;
+    fastcgi_pass unix:<%= @listen %>;
     fastcgi_index index.php;
     include fastcgi_params;
 

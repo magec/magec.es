@@ -14,12 +14,14 @@ define wordpress::instance::app (
   $wp_additional_config,
   $wp_table_prefix,
   $wp_proxy_host,
+  $listen,
   $wp_proxy_port,
   $wp_multisite,
   $wp_site_domain,
   $wp_debug,
   $wp_debug_log,
   $wp_debug_display,
+  $nginx_site = false,
 ) {
   validate_string($install_dir,$install_url,$version,$db_name,$db_host,$db_user,$db_password,$wp_owner,$wp_group, $wp_lang, $wp_plugin_dir,$wp_additional_config,$wp_table_prefix,$wp_proxy_host,$wp_proxy_port,$wp_site_domain)
   validate_bool($wp_multisite, $wp_debug, $wp_debug_log, $wp_debug_display)
@@ -64,7 +66,7 @@ define wordpress::instance::app (
   }
   
   ## tar.gz. file name lang-aware
-  if $wp_lang {
+  if $wp_lang != '' {
     $install_file_name = "wordpress-${version}-${wp_lang}.tar.gz"
   } else {
     $install_file_name = "wordpress-${version}.tar.gz"
@@ -139,6 +141,12 @@ define wordpress::instance::app (
       target  => "${install_dir}/wp-config.php",
       content => template('wordpress/wp-config.php.erb'),
       order   => '20',
+    }
+  }
+
+  if ( $nginx_site ) {
+    nginx::file { "/etc/nginx/sites-enabled/wordpress-${wp_site_domain}.conf":
+      content => template("${module_name}/wordpress-fcgi.conf.erb"),
     }
   }
 }

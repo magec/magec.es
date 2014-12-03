@@ -1,0 +1,37 @@
+server {
+
+  server_name <%= @wp_site_domain %>;
+  root        <%= @install_dir %>;
+
+  client_max_body_size 25M;
+  index index.php;
+
+  if (!-e $request_filename) {
+    rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+    rewrite ^(/[^/]+)?(/wp-.*) $2 last;
+    rewrite ^(/[^/]+)?(/.*\.php) $2 last;
+  }
+
+  location / {
+
+    if (-f $request_filename) {
+      expires 30d; break; }
+
+    if (!-e $request_filename) {
+      rewrite ^(.+)$ /index.php?q=$1 last;
+    }
+  }
+
+  try_files $uri $uri/ /index.php;
+
+  location ~ \.php$ {
+
+    include fastcgi_params;
+    fastcgi_pass unix:<%= @listen %>;
+
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param PATH_INFO $fastcgi_script_name;
+    fastcgi_param DOMAIN_CURRENT_SITE <%= @wp_site_domain %>;
+  }
+
+}

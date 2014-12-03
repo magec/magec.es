@@ -17,6 +17,7 @@ class wordpress::app (
   $wp_proxy_port,
   $wp_multisite,
   $wp_site_domain,
+  $listen,
   $wp_debug,
   $wp_debug_log,
   $wp_debug_display,

@@ -89,11 +89,13 @@ define wordpress::instance (
   $wp_table_prefix      = 'wp_',
   $wp_proxy_host        = '',
   $wp_proxy_port        = '',
+  $listen               = '',
   $wp_multisite         = false,
   $wp_site_domain       = '',
   $wp_debug             = false,
   $wp_debug_log         = false,
   $wp_debug_display     = false,
+  $nginx_site           = false,
 ) {
   wordpress::instance::app { $install_dir:
     install_dir          => $install_dir,
@@ -101,7 +103,9 @@ define wordpress::instance (
     version              => $version,
     db_name              => $db_name,
     db_host              => $db_host,
+    nginx_site           => $nginx_site,
     db_user              => $db_user,
+    listen               => $listen,
     db_password          => $db_password,
     wp_owner             => $wp_owner,
     wp_group             => $wp_group,
