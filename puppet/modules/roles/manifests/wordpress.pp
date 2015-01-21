@@ -1,6 +1,7 @@
 class roles::wordpress ($blogs) {
   
   include nginx
+  include packages::php5_imagick
   
   class { 'php5': } ->
   class { 'php5_fpm': } ->
