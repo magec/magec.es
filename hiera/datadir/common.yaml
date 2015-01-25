@@ -3,21 +3,22 @@ php5_fpm::pool::max_requests: 50
 
 laiacapdevila::database::name: 'laiacapdevila'
 laiacapdevila::database::user: 'laiacapdevila'
+ideandoqueesgerundio::database::name: 'ideando'
+ideandoqueesgerundio::database::user: 'ideando'
 
 laiacapdevila::wordpress::install_dir: '/var/www/laiacapdevila'
 laiacapdevila::wordpress::db_user: "%{hiera('laiacapdevila::database::user')}"
+laiacapdevila::wordpress::db_name: "%{hiera('laiacapdevila::database::name')}"
 laiacapdevila::wordpress::db_host: "localhost"
 laiacapdevila::wordpress::db_password: "%{hiera('laiacapdevila::database::password')}"
 laiacapdevila::wordpress::domain_name: "laiacapdevila.com"
 
-ideandoqueesgerundio::database::name: 'ideandoqueesgerundio'
-ideandoqueesgerundio::database::user: 'ideandoqueesgerundio'
-
 ideandoqueesgerundio::wordpress::install_dir: '/var/www/ideandoqueesgerundio'
 ideandoqueesgerundio::wordpress::db_user: "%{hiera('ideandoqueesgerundio::database::user')}"
 ideandoqueesgerundio::wordpress::db_host: "localhost"
+ideandoqueesgerundio::wordpress::db_name: "%{hiera('ideandoqueesgerundio::database::name')}"
 ideandoqueesgerundio::wordpress::db_password: "%{hiera('ideandoqueesgerundio::database::password')}"
-ideandoqueesgerundio::wordpress::domain_name: "laiacapdevila.com"
+ideandoqueesgerundio::wordpress::domain_name: "ideandoqueesgerundio.com"
 
 roles::db::databases:
   - user: "%{hiera('laiacapdevila::database::user')}"
@@ -27,6 +28,13 @@ roles::db::databases:
     name: "%{hiera('ideandoqueesgerundio::database::name')}"
     password: "%{hiera('ideandoqueesgerundio::database::password')}"
 
+roles::mail_server::virtual_alias_domains:
+  - "laiacapdevila.com"
+
+roles::mail_server::virtual_alias_maps:
+  - "info@laiacapdevila.com laiacapdevila86@gmail.com"
+  - "laia@laiacapdevila.com laiacapdevila86@gmail.com"
+
 roles::wordpress::blogs:
   - install_dir: "%{hiera('laiacapdevila::wordpress::install_dir')}"
     install_url: "http://ca.wordpress.org"
@@ -35,12 +43,14 @@ roles::wordpress::blogs:
     domain_name: "%{hiera('laiacapdevila::wordpress::domain_name')}"
     db_user: "%{hiera('laiacapdevila::wordpress::db_user')}"
     db_host: "%{hiera('laiacapdevila::wordpress::db_host')}"
+    db_name: "%{hiera('laiacapdevila::wordpress::db_name')}"
     db_password: "%{hiera('laiacapdevila::wordpress::db_password')}"
   - install_dir: "%{hiera('ideandoqueesgerundio::wordpress::install_dir')}"
     install_url: "http://es.wordpress.org"
-    wp_lang: es
-    version: 4.0.1
+    wp_lang: es_ES
+    version: '4.1'
     domain_name: "%{hiera('ideandoqueesgerundio::wordpress::domain_name')}"
+    db_name: "%{hiera('ideandoqueesgerundio::wordpress::db_name')}"
     db_user: "%{hiera('ideandoqueesgerundio::wordpress::db_user')}"
     db_host: "%{hiera('ideandoqueesgerundio::wordpress::db_host')}"
     db_password: "%{hiera('ideandoqueesgerundio::wordpress::db_password')}"

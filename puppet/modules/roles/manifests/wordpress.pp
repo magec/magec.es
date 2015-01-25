@@ -17,7 +17,7 @@ class roles::wordpress ($blogs) {
 
     $listen =  "/var/run/wordpress-${blog['domain_name']}.sock"
     
-    class { '::wordpress':
+    wordpress::instance { "wordpress-${blog}":
       install_dir    => $blog['install_dir'],
       db_name        => $blog['db_name'],
       db_user        => $blog['db_user'],
