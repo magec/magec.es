@@ -70,7 +70,7 @@ roles::wordpress::blogs:
   - install_dir: "%{hiera('esmasloquenosune::wordpress::install_dir')}"
     install_url: "http://es.wordpress.org"
     wp_lang: es
-    version: 4.0.1
+    version: 4.1.1
     domain_name: "%{hiera('esmasloquenosune::wordpress::domain_name')}"
     db_user: "%{hiera('esmasloquenosune::wordpress::db_user')}"
     db_host: "%{hiera('esmasloquenosune::wordpress::db_host')}"
