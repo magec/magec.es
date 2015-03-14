@@ -20,6 +20,16 @@ ideandoqueesgerundio::wordpress::db_name: "%{hiera('ideandoqueesgerundio::databa
 ideandoqueesgerundio::wordpress::db_password: "%{hiera('ideandoqueesgerundio::database::password')}"
 ideandoqueesgerundio::wordpress::domain_name: "ideandoqueesgerundio.com"
 
+esmasloquenosune::database::name: 'esmasloquenosune'
+esmasloquenosune::database::user: 'esmasloquenosune'
+esmasloquenosune::wordpress::db_user: "%{hiera('esmasloquenosune::database::user')}"
+esmasloquenosune::wordpress::db_host: "localhost"
+esmasloquenosune::wordpress::db_name: "%{hiera('esmasloquenosune::database::name')}"
+esmasloquenosune::wordpress::db_password: "%{hiera('esmasloquenosune::database::password')}"
+esmasloquenosune::wordpress::domain_name: "esmasloquenosune.es"
+
+esmasloquenosune::wordpress::install_dir: '/var/www/esmasloquenosune'
+
 roles::db::databases:
   - user: "%{hiera('laiacapdevila::database::user')}"
     name: "%{hiera('laiacapdevila::database::name')}"
@@ -27,6 +37,9 @@ roles::db::databases:
   - user: "%{hiera('ideandoqueesgerundio::database::user')}"
     name: "%{hiera('ideandoqueesgerundio::database::name')}"
     password: "%{hiera('ideandoqueesgerundio::database::password')}"
+  - user: "%{hiera('esmasloquenosune::database::user')}"
+    name: "%{hiera('esmasloquenosune::database::name')}"
+    password: "%{hiera('esmasloquenosune::database::password')}"
 
 roles::mail_server::virtual_alias_domains:
   - "laiacapdevila.com"
@@ -54,3 +67,11 @@ roles::wordpress::blogs:
     db_user: "%{hiera('ideandoqueesgerundio::wordpress::db_user')}"
     db_host: "%{hiera('ideandoqueesgerundio::wordpress::db_host')}"
     db_password: "%{hiera('ideandoqueesgerundio::wordpress::db_password')}"
+  - install_dir: "%{hiera('esmasloquenosune::wordpress::install_dir')}"
+    install_url: "http://es.wordpress.org"
+    wp_lang: es
+    version: 4.0.1
+    domain_name: "%{hiera('esmasloquenosune::wordpress::domain_name')}"
+    db_user: "%{hiera('esmasloquenosune::wordpress::db_user')}"
+    db_host: "%{hiera('esmasloquenosune::wordpress::db_host')}"
+    db_password: "%{hiera('esmasloquenosune::wordpress::db_password')}"
