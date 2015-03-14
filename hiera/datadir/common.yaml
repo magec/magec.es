@@ -69,7 +69,7 @@ roles::wordpress::blogs:
     db_password: "%{hiera('ideandoqueesgerundio::wordpress::db_password')}"
   - install_dir: "%{hiera('esmasloquenosune::wordpress::install_dir')}"
     install_url: "http://es.wordpress.org"
-    wp_lang: es
+    wp_lang: es_ES
     version: 4.1.1
     domain_name: "%{hiera('esmasloquenosune::wordpress::domain_name')}"
     db_user: "%{hiera('esmasloquenosune::wordpress::db_user')}"
