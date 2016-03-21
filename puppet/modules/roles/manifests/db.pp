@@ -9,7 +9,7 @@ class roles::db ($databases) {
 
   $databases.each |$database| {
     mysql::create_database { $database['name']:
-      db         => hiera('laiacapdevila::database::name'),
+      db         => $database['name'],
       mysql_host => $mysql_host,
       require    => Class['mysql::server'],
     } ->

@@ -1,4 +1,4 @@
-php5_fpm::pool::max_children: 10
+php5_fpm::pool::max_children: 4
 php5_fpm::pool::max_requests: 50
 
 laiacapdevila::database::name: 'laiacapdevila'
@@ -27,8 +27,16 @@ esmasloquenosune::wordpress::db_host: "localhost"
 esmasloquenosune::wordpress::db_name: "%{hiera('esmasloquenosune::database::name')}"
 esmasloquenosune::wordpress::db_password: "%{hiera('esmasloquenosune::database::password')}"
 esmasloquenosune::wordpress::domain_name: "esmasloquenosune.es"
-
 esmasloquenosune::wordpress::install_dir: '/var/www/esmasloquenosune'
+
+ginecologiaintima::database::name: 'ginecologiaintima'
+ginecologiaintima::database::user: 'ginecologia'
+ginecologiaintima::wordpress::db_user: "%{hiera('ginecologiaintima::database::user')}"
+ginecologiaintima::wordpress::db_host: "localhost"
+ginecologiaintima::wordpress::db_name: "%{hiera('ginecologiaintima::database::name')}"
+ginecologiaintima::wordpress::db_password: "%{hiera('ginecologiaintima::database::password')}"
+ginecologiaintima::wordpress::domain_name: "ginecologiaintima.com"
+ginecologiaintima::wordpress::install_dir: '/var/www/ginecologiaintima'
 
 roles::db::databases:
   - user: "%{hiera('laiacapdevila::database::user')}"
@@ -40,6 +48,9 @@ roles::db::databases:
   - user: "%{hiera('esmasloquenosune::database::user')}"
     name: "%{hiera('esmasloquenosune::database::name')}"
     password: "%{hiera('esmasloquenosune::database::password')}"
+  - user: "%{hiera('ginecologiaintima::database::user')}"
+    name: "%{hiera('ginecologiaintima::database::name')}"
+    password: "%{hiera('ginecologiaintima::database::password')}"
 
 roles::mail_server::virtual_alias_domains:
   - "laiacapdevila.com"
@@ -73,5 +84,15 @@ roles::wordpress::blogs:
     version: 4.1.1
     domain_name: "%{hiera('esmasloquenosune::wordpress::domain_name')}"
     db_user: "%{hiera('esmasloquenosune::wordpress::db_user')}"
+    db_name: "%{hiera('esmasloquenosune::wordpress::db_name')}"
     db_host: "%{hiera('esmasloquenosune::wordpress::db_host')}"
     db_password: "%{hiera('esmasloquenosune::wordpress::db_password')}"
+  - install_dir: "%{hiera('ginecologiaintima::wordpress::install_dir')}"
+    install_url: "http://es.wordpress.org"
+    wp_lang: es_ES
+    version: 4.1.1
+    domain_name: "%{hiera('ginecologiaintima::wordpress::domain_name')}"
+    db_user: "%{hiera('ginecologiaintima::wordpress::db_user')}"
+    db_name: "%{hiera('ginecologiaintima::wordpress::db_name')}"
+    db_host: "%{hiera('ginecologiaintima::wordpress::db_host')}"
+    db_password: "%{hiera('ginecologiaintima::wordpress::db_password')}"

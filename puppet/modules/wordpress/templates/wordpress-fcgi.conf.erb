@@ -1,6 +1,6 @@
 server {
 
-  server_name <%= @wp_site_domain %>;
+  server_name *.<%= @wp_site_domain %> <%= @wp_site_domain %>;
   root        <%= @install_dir %>;
 
   client_max_body_size 25M;
